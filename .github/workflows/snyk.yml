@@ -13,5 +13,5 @@ jobs:
       run: snyk test --all-projects
       continue-on-error: true
       env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        SNYK_TOKEN: ab3a3a57-123b-4699-bce2-95dfaba21621
 #fdfdfdfs
