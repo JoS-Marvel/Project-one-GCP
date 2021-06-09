@@ -10,10 +10,10 @@ jobs:
       with:
         go-version: "1.13"
     - name: Snyk test
-      run: snyk test --file=server.js
+      run: snyk test 
       continue-on-error: true
       env:
         SNYK_TOKEN: ab3a3a57-123b-4699-bce2-95dfaba21621
     - name: Snyk test
-      run: snyk test --file=server.js
+      run: snyk test 
       continue-on-error: true
