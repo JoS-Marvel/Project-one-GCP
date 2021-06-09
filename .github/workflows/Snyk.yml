@@ -1,5 +1,5 @@
 name: Snyk to GIT
-on: push
+on: pull_request
 jobs:
   Snyksecurity:
     runs-on: ubuntu-latest
