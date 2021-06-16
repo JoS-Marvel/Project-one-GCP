@@ -17,5 +17,7 @@ steps:
      - "-t"
      - "gcr.io/project-one-315608/project-one-gcp"
      - "."
+  - name: 'gcr.io/cloud-builders/gcloud'
+  args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
 images: 
   - "gcr.io/project-one-315608/project-one-gcp"
