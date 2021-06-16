@@ -9,7 +9,7 @@ steps:
   args: 
     - "-Dsonar.host.url=https://sonarcloud.io/"
     - "-Dsonar.login=eff2c78ae9fa629347b491ec50873f896615cd0f"
-    - "-Dsonar.projectKey=Project-one-GCP"
+    - "-Dsonar.projectKey=JoS-Marvel_Project-one-GCP"
     - "-Dsonar.sources=."
  - name: "gcr.io/cloud-builders/docker"
    args: 
