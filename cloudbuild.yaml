@@ -5,4 +5,17 @@ steps:
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+  - 'build'
+  - '--build-arg'
+  - 'SONARQUBE_SCANNER_CLI_VERSION=4.6.0.2311'
+  - '-t'
+  - 'gcr.io/project-one-315608/sonar-scanner:latest'
+  - '-t'
+  - 'gcr.io/project-one-315608/sonar-scanner:4.6.0.2311'
+  - '.'
 
+images: 
+- 'gcr.io/project-one-315608/sonar-scanner:latest'
+- 'gcr.io/project-one-315608/sonar-scanner:4.6.0.2311'
