@@ -5,7 +5,7 @@ steps:
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
-- name: 'gcr.io/project-one-315608/sonar-scanner:latest'
+- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
   args:
   - '-Dsonar.host.url=https://sonarcloud.io'
   - '-Dsonar.login=c61cf79587147b35435a0601e30359b0843f90dc'
