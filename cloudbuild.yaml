@@ -7,7 +7,7 @@ steps:
 - name: 'sysdiglabs/secure-inline-scan'
   entrypoint: 'bash'
   args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) -s ${_IMAGE_URL}' ]  
-  continueOnError: true
+  continue-on-error: true
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
