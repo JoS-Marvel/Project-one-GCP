@@ -7,6 +7,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/${_IMAGE_URL}:${_IMAGE_TAG}']
 substitutions:
-  _IMAGE_URL: 'gcr.io/project-one-315608/project-one-gcp'
+  _IMAGE_URL: 'project-one-315608/project-one-gcp'
   _IMAGE_TAG: 'latest'
 timeout: 900s
