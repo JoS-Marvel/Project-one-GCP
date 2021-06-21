@@ -6,7 +6,7 @@ steps:
   args: [ '-c', "gcloud secrets versions access latest --secret=sysdig_token --format='get(payload.data)' | tr '_-' '/+' | base64 -d > decrypted-data.txt" ]
 - name: 'sysdiglabs/secure-inline-scan'
   entrypoint: 'bash'
-  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) [ OPTIONS ] gcr.io/project-one-315608/project-one-gcp:latest' ]  
+  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) -s gcr.io/project-one-315608/project-one-gcp:latest' ]  
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
