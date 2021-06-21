@@ -10,8 +10,10 @@ steps:
   args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) -s ${_IMAGE_URL}' ]  
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
+  id: 'check2'
   waitFor: ['check']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
+  waitFor: ['check2']
 substitutions:
   _IMAGE_URL: 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA'
