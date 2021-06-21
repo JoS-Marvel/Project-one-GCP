@@ -1,15 +1,15 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA', '.']
+  args: ['build', '-t', '${_IMAGE_URL}:${_IMAGE_TAG}', '.']
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', "gcloud secrets versions access latest --secret=sysdig_token --format='get(payload.data)' | tr '_-' '/+' | base64 -d > decrypted-data.txt" ]
+- name: 'sysdiglabs/secure-inline-scan'
+  entrypoint: 'bash'
+  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) ${_IMAGE_URL}:${_IMAGE_TAG}' ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
-- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
-  args:
-  - '-Dsonar.host.url=https://sonarcloud.io'
-  - '-Dsonar.login=c61cf79587147b35435a0601e30359b0843f90dc'
-  - '-Dsonar.projectKey=JoS-Marvel_Project-one-GCP'
-  - '-Dsonar.organization=jos-marvel'
-  - '-Dsonar.sources=.'
-tags: ['cloud-builders-community']
+  args: ['push', 'gcr.io/${_IMAGE_URL}:${_IMAGE_TAG}']
+substitutions:
+  _IMAGE_URL: 'gcr.io/project-one-315608/project-one-gcp'
+  _IMAGE_TAG: 'latest'
+timeout: 900s
