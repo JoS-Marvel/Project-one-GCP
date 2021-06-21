@@ -12,4 +12,4 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
 substitutions:
-  _IMAGE_URL: 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA''
+  _IMAGE_URL: 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA'
