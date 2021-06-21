@@ -1,15 +1,13 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', '${_IMAGE_URL}:${_IMAGE_TAG}', '.']
+  args: ['build', '-t', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA', '.']
 - name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
   args: [ '-c', "gcloud secrets versions access latest --secret=sysdig_token --format='get(payload.data)' | tr '_-' '/+' | base64 -d > decrypted-data.txt" ]
 - name: 'sysdiglabs/secure-inline-scan'
   entrypoint: 'bash'
-  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) ${_IMAGE_URL}:${_IMAGE_TAG}' ]
+  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA' ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/${_IMAGE_URL}:${_IMAGE_TAG}']
-substitutions:
-  _IMAGE_URL: 'gcr.io/project-one-315608/project-one-gcp'
-  _IMAGE_TAG: 'latest'
-timeout: 900s
+  args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
