@@ -7,7 +7,7 @@ steps:
   id: 'check'
 - name: 'sysdiglabs/secure-inline-scan'
   entrypoint: 'bash'
-  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) https://us2.app.sysdig.com gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA' ]  
+  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA' ]  
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
   id: 'check2'
