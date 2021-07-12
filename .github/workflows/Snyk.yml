@@ -18,7 +18,7 @@ jobs:
       run: snyk test --all-projects --json-file-output=snyk.json
       continue-on-error: true
       env:
-        SNYK_TOKEN: ab3a3a57-123b-4699-bce2-95dfaba21621
+        SNYK_TOKEN: b6463837-5be7-4d18-b1f5-8a94ed60e024
     - uses: garethr/snyk-to-sarif@master
     - uses: actions/upload-artifact@v2
       with:
