@@ -1,18 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA', '.']
-- name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
-  args: [ '-c', "gcloud secrets versions access latest --secret=sysdig_token --format='get(payload.data)' | tr '_-' '/+' | base64 -d > decrypted-data.txt" ]
-  id: 'check'
-- name: 'sysdiglabs/secure-inline-scan'
-  entrypoint: 'bash'
-  args: [ '-c', '/bin/inline_scan.sh analyze -k $(cat decrypted-data.txt) [ OPTIONS ] gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA' ]  
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
-  id: 'check2'
-  waitFor: ['check']
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: [ 'auth', 'activate-service-account', '399543980425@cloudbuild.gserviceaccount.com', '--key-file=PATH_TO_FILE', '--project=project-one-315608']
   args: ['beta', 'run', 'deploy', 'project-one-315608', '--region=asia-south1', '--platform=managed', '--image=gcr.io/project-one-315608/project-one-gcp:$SHORT_SHA']
-  waitFor: ['check','check2']
